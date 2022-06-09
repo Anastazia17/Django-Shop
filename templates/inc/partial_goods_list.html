@@ -1,0 +1,20 @@
+<table>
+  <tr>
+    <th>Название</th>
+    <th>Поставщик</th>
+    <th>Цена</th>
+    <th>Валюта</th>
+    <th>Поступление</th>
+    <th>Обновление</th>
+  </tr>
+  {% for object in object_list %}
+    <tr>
+      <td>{{ object.name }}</td>
+      <td>{{ object.supplier }}</td>
+      <td>{{ object.price }}</td>
+      <td>{{ object.measure_unit }}</td>
+      <td>{{ object.date_receipt }}</td>
+      <td>{{ object.date_upd }}</td>
+    </tr>
+  {% endfor %}
+</table>

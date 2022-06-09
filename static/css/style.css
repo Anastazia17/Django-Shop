@@ -1,0 +1,11 @@
+.goods-table th {
+  text-align: center;
+}
+.goods-table th, .goods-table td {
+  border: 2px springgreen solid;
+  padding: 5px;
+  background-color: lightgrey;
+  color: darkred;
+}
+
+/*# sourceMappingURL=style.css.map */

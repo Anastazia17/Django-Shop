@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Radif"/>
+  <meta name="contact" content="mail@radif.ru"/>
+  <meta name="copyright" content="© Radif.ru, Django project, 2021."/>
+  <title>{{ page_title|default:"Товары"|title }}</title>
+  {% block css %}
+    <link
+        rel="stylesheet"
+        href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% endblock %}
+
+  {% block additional_css %}
+  {% endblock %}
+
+  {% block js %}
+    <script
+        src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}">
+    </script>
+  {% endblock %}
+
+  {% block additional_js %}
+  {% endblock %}
+
+</head>
+<body>
+<div class="my-container">
+  {% block container %}
+  {% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block additional_js %}
+  <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'js/good_create.js' %}"></script>
+{% endblock %}
+
+{% block container %}
+  <button type="button" class="js-create-good btn btn-light"
+          data-url="{% url 'good_create' %}">Добавить товар
+  </button>
+
+  <div class="goods-table">
+    {% include 'inc/partial_goods_list.html' %}
+  </div>
+
+  <div class="modal fade" id="modal-good">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {% include 'good_create.html' %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
