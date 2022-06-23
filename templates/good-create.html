@@ -1,0 +1,14 @@
+    <form
+        method="post"
+        enctype="multipart/form-data"
+        data-action="{% url 'product:add' %}"
+        class="form-horizontal js-good-create-form"
+    >
+        <div class="modal-body">
+            {% include 'form.html' %}
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create good</button>
+        </div>
+    </form>
