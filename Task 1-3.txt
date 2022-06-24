@@ -1,0 +1,509 @@
+anastazia@anastazia-VirtualBox:~$ ip a s
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:eb:ad:0d brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.6/24 brd 192.168.1.255 scope global dynamic enp0s3
+       valid_lft 5440sec preferred_lft 5440sec
+    inet6 fe80::6a3e:c99f:4af9:3de0/64 scope link
+       valid_lft forever preferred_lft forever
+anastazia@anastazia-VirtualBox:~$ ssh anastazia@192.168.1.6
+The authenticity of host '192.168.1.6 (192.168.1.6)' can't be established.
+ECDSA key fingerprint is SHA256:HPnuJncP1ps7iUsm/Z1rhdWC2DkhxY3a58BC/skDI0A.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.1.6' (ECDSA) to the list of known hosts.
+anastazia@192.168.1.6's password:
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-45-generic i686)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Могут быть обновлены 389 пакетов.
+327 обновлений касаются безопасности системы.
+
+Last login: Sat Jul 18 00:43:00 2020 from 192.168.1.2
+anastazia@anastazia-VirtualBox:~$ exit
+выход
+Connection to 192.168.1.6 closed.
+anastazia@anastazia-VirtualBox:~$ ssh keygen -t rsa -b 2048
+ssh: Could not resolve hostname keygen: Name or service not known
+anastazia@anastazia-VirtualBox:~$ ssh-keygen -t rsa -b 2048
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/anastazia/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/anastazia/.ssh/id_rsa.
+Your public key has been saved in /home/anastazia/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:jr7op2DJDJMHMNhvux9CpjUmT5r1VNz+t6lALWtqOtA anastazia@anastazia-VirtualBox
+The key's randomart image is:
++---[RSA 2048]----+
+|+.               |
+|o..    . .       |
+|.  .    o .      |
+| o  o  . . .     |
+|+ o.Oo. S + .    |
+| * #o+Eo . +     |
+|  X oo+ . + . .  |
+| . ..+o..o . . o |
+|   .++==.   ..o  |
++----[SHA256]-----+
+anastazia@anastazia-VirtualBox:~$ cd .ssh/
+anastazia@anastazia-VirtualBox:~/.ssh$ ls id_rsa
+id_rsa
+anastazia@anastazia-VirtualBox:~/.ssh$ ls -la
+итого 20
+drwx------  2 anastazia anastazia 4096 июл 18 16:08 .
+drwxr-xr-x 16 anastazia anastazia 4096 июл 18 16:03 ..
+-rw-------  1 anastazia anastazia 1679 июл 18 16:08 id_rsa
+-rw-r--r--  1 anastazia anastazia  412 июл 18 16:08 id_rsa.pub
+-rw-r--r--  1 anastazia anastazia  222 июл 18 16:04 known_hosts
+anastazia@anastazia-VirtualBox:~/.ssh$ less id_rsa
+anastazia@anastazia-VirtualBox:~/.ssh$ less id_rsa.pub
+anastazia@anastazia-VirtualBox:~/.ssh$ ssh-copy-id -i ~/.ssh/id_rsa.pub anastazia@192.168.1.6
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/anastazia/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+anastazia@192.168.1.6's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'anastazia@192.168.1.6'"
+and check to make sure that only the key(s) you wanted were added.
+
+anastazia@anastazia-VirtualBox:~/.ssh$ ls -la
+итого 24
+drwx------  2 anastazia anastazia 4096 июл 18 16:15 .
+drwxr-xr-x 16 anastazia anastazia 4096 июл 18 16:03 ..
+-rw-------  1 anastazia anastazia  412 июл 18 16:15 authorized_keys
+-rw-------  1 anastazia anastazia 1679 июл 18 16:08 id_rsa
+-rw-r--r--  1 anastazia anastazia  412 июл 18 16:08 id_rsa.pub
+-rw-r--r--  1 anastazia anastazia  222 июл 18 16:04 known_hosts
+anastazia@anastazia-VirtualBox:~/.ssh$ less authorized_keys
+anastazia@anastazia-VirtualBox:~/.ssh$ ssh anastazia@192.168.1.6
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.15.0-45-generic i686)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+Могут быть обновлены 389 пакетов.
+327 обновлений касаются безопасности системы.
+
+New release '18.04.4 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+Last login: Sat Jul 18 16:04:20 2020 from 192.168.1.6
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/ssh/sshd_config
+[sudo] пароль для anastazia:
+anastazia@anastazia-VirtualBox:~$ sudo systemctl restart sshd.service
+anastazia@anastazia-VirtualBox:~$ nano /etc/passwd
+anastazia@anastazia-VirtualBox:~$ nano /etc/shadow
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/shadow
+[sudo] пароль для anastazia:
+anastazia@anastazia-VirtualBox:~$ ls -a
+.                      .gnupg                     .xsession-errors
+..                     .ICEauthority              .xsession-errors.old
+anastasia@192.168.1.6  .local                     Видео
+anastazia@192.168.1.6  .nano                      Документы
+.bash_history          .profile                   Загрузки
+.bash_logout           ssh                        Изображения
+.bashrc                .ssh                       Музыка
+.cache                 .sudo_as_admin_successful  Общедоступные
+.config                task2.txt                  Рабочий стол
+examples.desktop       .viminfo                   Шаблоны
+.gconf                 .Xauthority
+anastazia@anastazia-VirtualBox:~$ touch test.txt
+anastazia@anastazia-VirtualBox:~$ sha512sum test.txt
+cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e  test.txt
+anastazia@anastazia-VirtualBox:~$ sha512sum test.txt
+cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e  test.txt
+anastazia@anastazia-VirtualBox:~$ rm test.txt
+anastazia@anastazia-VirtualBox:~$ ls -a
+.                      .gnupg                     .xsession-errors
+..                     .ICEauthority              .xsession-errors.old
+anastasia@192.168.1.6  .local                     Видео
+anastazia@192.168.1.6  .nano                      Документы
+.bash_history          .profile                   Загрузки
+.bash_logout           ssh                        Изображения
+.bashrc                .ssh                       Музыка
+.cache                 .sudo_as_admin_successful  Общедоступные
+.config                task2.txt                  Рабочий стол
+examples.desktop       .viminfo                   Шаблоны
+.gconf                 .Xauthority
+anastazia@anastazia-VirtualBox:~$ rm task2.txt
+anastazia@anastazia-VirtualBox:~$ la -a
+.                      .gnupg                     .xsession-errors.old
+..                     .ICEauthority              Видео
+anastasia@192.168.1.6  .local                     Документы
+anastazia@192.168.1.6  .nano                      Загрузки
+.bash_history          .profile                   Изображения
+.bash_logout           ssh                        Музыка
+.bashrc                .ssh                       Общедоступные
+.cache                 .sudo_as_admin_successful  Рабочий стол
+.config                .viminfo                   Шаблоны
+examples.desktop       .Xauthority
+.gconf                 .xsession-errors
+anastazia@anastazia-VirtualBox:~$ nano /etc/group
+anastazia@anastazia-VirtualBox:~$ cat /etc/group | grep sudo
+sudo:x:27:anastazia
+anastazia@anastazia-VirtualBox:~$ id
+uid=1000(anastazia) gid=1000(anastazia) группы=1000(anastazia),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ sudo -s
+[sudo] пароль для anastazia:
+root@anastazia-VirtualBox:~# passwd
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+root@anastazia-VirtualBox:~# exit
+exit
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ su -
+Пароль:
+root@anastazia-VirtualBox:~# echo 'profit'
+profit
+root@anastazia-VirtualBox:~# exit
+выход
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+su: Сбой при проверке подлинности
+anastazia@anastazia-VirtualBox:~$ sudo su
+root@anastazia-VirtualBox:/home/anastazia# exit
+exit
+anastazia@anastazia-VirtualBox:~$ sudo useradd -c "Comment" -m -s /bin/sh test2
+anastazia@anastazia-VirtualBox:~$ sudo passwd test2
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/shadow
+anastazia@anastazia-VirtualBox:~$ su test2
+Пароль:
+$ ls
+anastasia@192.168.1.6  ssh        Загрузки     Общедоступные
+anastazia@192.168.1.6  Видео      Изображения  Рабочий стол
+examples.desktop       Документы  Музыка       Шаблоны
+$ ls -la
+итого 116
+drwxr-xr-x 17 anastazia anastazia 4096 июл 18 17:54 .
+drwxr-xr-x  5 root      root      4096 июл 18 18:27 ..
+-rw-rw-r--  1 anastazia anastazia    0 июл 18 00:24 anastasia@192.168.1.6
+-rw-rw-r--  1 anastazia anastazia    0 июл 18 00:24 anastazia@192.168.1.6
+-rw-------  1 anastazia anastazia 3318 июл 18 18:19 .bash_history
+-rw-r--r--  1 anastazia anastazia  220 июл 17 03:54 .bash_logout
+-rw-r--r--  1 anastazia anastazia 3771 июл 17 03:54 .bashrc
+drwx------ 12 anastazia anastazia 4096 июл 18 00:22 .cache
+drwx------ 14 anastazia anastazia 4096 июл 17 09:27 .config
+-rw-r--r--  1 anastazia anastazia 8980 июл 17 03:54 examples.desktop
+drwx------  2 anastazia anastazia 4096 июл 17 10:35 .gconf
+drwx------  3 anastazia anastazia 4096 июл 18 15:35 .gnupg
+-rw-------  1 anastazia anastazia 1122 июл 18 15:35 .ICEauthority
+drwx------  3 anastazia anastazia 4096 июл 17 09:24 .local
+drwxrwxr-x  2 anastazia anastazia 4096 июл 18 17:40 .nano
+-rw-r--r--  1 anastazia anastazia  655 июл 17 03:54 .profile
+-rw-rw-r--  1 anastazia anastazia    0 июл 18 00:24 ssh
+drwx------  2 anastazia anastazia 4096 июл 18 16:15 .ssh
+-rw-r--r--  1 anastazia anastazia    0 июл 17 10:36 .sudo_as_admin_successful
+-rw-------  1 anastazia anastazia 1292 июл 18 00:04 .viminfo
+-rw-------  1 anastazia anastazia   65 июл 18 15:34 .Xauthority
+-rw-------  1 anastazia anastazia  195 июл 18 15:34 .xsession-errors
+-rw-------  1 anastazia anastazia  195 июл 17 19:21 .xsession-errors.old
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Видео
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Документы
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Загрузки
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Изображения
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Музыка
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Общедоступные
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Рабочий стол
+drwxr-xr-x  2 anastazia anastazia 4096 июл 17 09:24 Шаблоны
+$ pwd
+/home/anastazia
+$ id
+uid=1001(test2) gid=1001(test2) группы=1001(test2)
+$ exit
+anastazia@anastazia-VirtualBox:~$ sudo adduser test3
+Добавляется пользователь «test3» ...
+Добавляется новая группа «test3» (1002) ...
+Добавляется новый пользователь «test3» (1002) в группу «test3» ...
+Создаётся домашний каталог «/home/test3» ...
+Копирование файлов из «/etc/skel» ...
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+Изменение информации о пользователе test3
+Введите новое значение или нажмите ENTER для выбора значения по умолчанию
+        Полное имя []: test3
+        Номер комнаты []:
+        Рабочий телефон []:
+        Домашний телефон []:
+        Другое []:
+Данная информация корректна? [Y/n] y
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/passwd
+anastazia@anastazia-VirtualBox:~$ cd /etc/skel
+anastazia@anastazia-VirtualBox:/etc/skel$ ls -a
+.  ..  .bash_logout  .bashrc  examples.desktop  .profile
+anastazia@anastazia-VirtualBox:/etc/skel$ cd
+anastazia@anastazia-VirtualBox:~$ sudo userdel test2
+[sudo] пароль для anastazia:
+anastazia@anastazia-VirtualBox:~$ sudo userdel -r test2
+userdel: пользователь «test2» не существует
+anastazia@anastazia-VirtualBox:~$ sudo usermod -g test2 test3
+usermod: группа «test2» не существует
+anastazia@anastazia-VirtualBox:~$ sudo adduser test2
+Добавляется пользователь «test2» ...
+Добавляется новая группа «test2» (1001) ...
+Добавляется новый пользователь «test2» (1001) в группу «test2» ...
+Домашний каталог «/home/test2» уже существует. Не копируется из «/etc/skel».
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+Изменение информации о пользователе test2
+Введите новое значение или нажмите ENTER для выбора значения по умолчанию
+        Полное имя []: test2
+        Номер комнаты []:
+        Рабочий телефон []:
+        Домашний телефон []:
+        Другое []:
+Данная информация корректна? [Y/n]
+anastazia@anastazia-VirtualBox:~$
+anastazia@anastazia-VirtualBox:~$ sudo adduser test2
+adduser: Пользователь «test2» уже существует.
+anastazia@anastazia-VirtualBox:~$ nano /etc/passwd
+anastazia@anastazia-VirtualBox:~$ sudo usermod -g test2 test3
+anastazia@anastazia-VirtualBox:~$ nano /etc/passwd
+anastazia@anastazia-VirtualBox:~$ id
+uid=1000(anastazia) gid=1000(anastazia) группы=1000(anastazia),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+anastazia@anastazia-VirtualBox:~$ sudo usermod -aG sudo test3
+anastazia@anastazia-VirtualBox:~$ id
+uid=1000(anastazia) gid=1000(anastazia) группы=1000(anastazia),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+anastazia@anastazia-VirtualBox:~$ su test3
+Пароль:
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+test3@anastazia-VirtualBox:/home/anastazia$ id
+uid=1002(test3) gid=1001(test2) группы=1001(test2),27(sudo)
+test3@anastazia-VirtualBox:/home/anastazia$ exit
+exit
+anastazia@anastazia-VirtualBox:~$ sudo gpasswd -d test3 sudo
+Удаление пользователя test3 из группы sudo
+anastazia@anastazia-VirtualBox:~$ su test3
+Пароль:
+test3@anastazia-VirtualBox:/home/anastazia$ id
+uid=1002(test3) gid=1001(test2) группы=1001(test2)
+test3@anastazia-VirtualBox:/home/anastazia$ exit
+exit
+anastazia@anastazia-VirtualBox:~$ groups
+anastazia adm cdrom sudo dip plugdev lpadmin sambashare
+anastazia@anastazia-VirtualBox:~$ id test2
+uid=1001(test2) gid=1001(test2) группы=1001(test2)
+anastazia@anastazia-VirtualBox:~$ -g passwd --help
+-g: команда не найдена
+anastazia@anastazia-VirtualBox:~$ gpasswd --help
+Использование: gpasswd [параметр] ГРУППА
+
+Параметры:
+  -a, --add ПОЛЬЗ               добавить ПОЛЬЗОВАТЕЛЯ в ГРУППУ
+  -d, --delete ПОЛЬЗ            удалить ПОЛЬЗОВАТЕЛЯ из ГРУППЫ
+  -h, --help                    показать данное сообщение и закончить работу
+  -Q, --root КАТ_CHROOT         каталог, который выполняется chroot
+  -r, --remove-password         удалить пароль ГРУППЫ
+  -R, --restrict                ограничить доступ в ГРУППУ её членами
+  -M, --members ПОЛЬЗ,…         задать список членов ГРУППЫ
+  -A, --administrators АДМИН,…
+                                задать список администраторов ГРУППЫ
+За исключением параметров -A и -M, остальные не могут указываться
+одновременно.
+anastazia@anastazia-VirtualBox:~$ sudo passwd root
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/shadow
+anastazia@anastazia-VirtualBox:~$ su
+Пароль:
+root@anastazia-VirtualBox:/home/anastazia# id
+uid=0(root) gid=0(root) группы=0(root)
+root@anastazia-VirtualBox:/home/anastazia# exit
+exit
+anastazia@anastazia-VirtualBox:~$ sudo groupadd group1
+anastazia@anastazia-VirtualBox:~$ sudo addgroup group2
+Добавляется группа «group2» (GID 1004) ...
+Готово.
+anastazia@anastazia-VirtualBox:~$ nano /etc/group
+anastazia@anastazia-VirtualBox:~$ sudo passwd -r root
+passwd: хранилище root не поддерживается
+anastazia@anastazia-VirtualBox:~$ sudo passwd root
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+Пароль не указан
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+Sorry, passwords do not match
+passwd: Ошибка при операциях с маркером проверки подлинности
+passwd: пароль не изменён
+anastazia@anastazia-VirtualBox:~$ passwd --help
+Использование: passwd [параметры] [ПОЛЬЗОВАТЕЛЬ]
+
+Параметры:
+  -a, --all                     показать состояние паролей всех учётных
+                                записей
+  -d, --delete                  удалить пароль заданной учётной записи
+  -e, --expire                  просрочить пароль заданной учётной записи
+  -h, --help                    показать данное сообщение и закончить работу
+  -k, --keep-tokens             изменять пароль только с истёкшим сроком
+                                действия
+  -i, --inactive НЕАКТИВНОСТЬ   установить неактивность пароля после
+                                истечения срока в значение НЕАКТИВНОСТЬ
+  -l, --lock                    заблокировать заданную учётную запись
+  -n, --mindays МИН_ДНЕЙ        установить минимальное число дней перед
+                                сменой пароля в МИН_ДНЕЙ
+  -q, --quiet                   сократить количество выводимых сообщений
+  -r, --repository РЕПОЗИТОРИЙ  изменить пароль в РЕПОЗИТОРИИ
+  -R, --root КАТ_CHROOT         каталог, в который выполняется chroot
+  -S, --status                  показать состояние пароля заданной учётной
+                                записи
+  -u, --unlock                  разблокировать заданную учётную запись
+  -w, --warndays ПРЕДУП_ДНЕЙ    установить количество дней с
+                                выдачей предупреждения в ПРЕДУП_ДНЕЙ
+  -x, --maxdays МАКС_ДНЕЙ       установить максимальное число дней перед
+                                сменой пароля в МАКС_ДНЕЙ
+
+anastazia@anastazia-VirtualBox:~$ sudo passwd -d root
+passwd: информация об истечении срока действия пароля изменена.
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/shadow
+anastazia@anastazia-VirtualBox:~$ sudo userdel -r test2
+userdel: группа test2 является первичной для другого пользователя и не может быть удалена.
+userdel: почтовый ящик test2 (/var/mail/test2) не найден
+anastazia@anastazia-VirtualBox:~$ sudo userdel -r test3
+userdel: группа test3 не удалена, так как это не первичная группа пользователя test3.
+userdel: почтовый ящик test3 (/var/mail/test3) не найден
+anastazia@anastazia-VirtualBox:~$ sudo groupdel group1
+anastazia@anastazia-VirtualBox:~$ sudo groupdel group2
+anastazia@anastazia-VirtualBox:~$ nano /etc/group
+anastazia@anastazia-VirtualBox:~$ sudo groupdel test2
+anastazia@anastazia-VirtualBox:~$ sudo groupdel test3
+anastazia@anastazia-VirtualBox:~$ nano /etc/group
+
+anastazia@anastazia-VirtualBox:~$ sudo useradd -m -p password1 -s /bin/bash test1
+[sudo] пароль для anastazia:
+anastazia@anastazia-VirtualBox:~$ id
+uid=1000(anastazia) gid=1000(anastazia) группы=1000(anastazia),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+
+anastazia@anastazia-VirtualBox:~$ sudo passwd test1
+Введите новый пароль UNIX:
+Повторите ввод нового пароля UNIX:
+passwd: пароль успешно обновлён
+
+anastazia@anastazia-VirtualBox:~$ sudo nano /etc/shadow
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+test1@anastazia-VirtualBox:/home/anastazia$ id
+uid=1001(test1) gid=1001(test1) группы=1001(test1)
+test1@anastazia-VirtualBox:/home/anastazia$ exit
+exit
+
+
+anastazia@anastazia-VirtualBox:~$ sudo usermod -aG sudo test1
+anastazia@anastazia-VirtualBox:~$ su test1
+Пароль:
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+test1@anastazia-VirtualBox:/home/anastazia$ id
+uid=1001(test1) gid=1001(test1) группы=1001(test1),27(sudo)
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo visudo
+[sudo] пароль для test1:
+visudo: unknown defaults entry `authentificateo'
+Что дальше?
+Опции:
+  (e)dit редактировать файл sudoers
+  e(x)it выйти без сохранения изменений в файле sudoers
+  (Q)uit завершить работу и сохранить изменения в файл sudoers (ОПАСНО!)
+
+Что дальше? e
+visudo: /etc/sudoers.d/README.tmp не изменено
+visudo: unknown defaults entry `authentificate'
+Что дальше? e
+visudo: /etc/sudoers.d/README.tmp не изменено
+
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo -k
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo visudo
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+[sudo] пароль для test1:
+1234
+
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo visudo
+test1@anastazia-VirtualBox:/home/anastazia$ sudo ech '1234'
+[sudo] пароль для test1:
+sudo: ech: команда не найдена
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+[sudo] пароль для test1:
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+[sudo] пароль для test1:
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+[sudo] пароль для test1:
+1234
+
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo visudo
+[sudo] пароль для test1:
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+1234
+
+
+test1@anastazia-VirtualBox:/home/anastazia$ sudo visudo
+test1@anastazia-VirtualBox:/home/anastazia$ sudo -k
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo test1
+[sudo] пароль для test1:
+test1
+test1@anastazia-VirtualBox:/home/anastazia$ sudo -k
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo test
+test
+test1@anastazia-VirtualBox:/home/anastazia$ sudo -k
+test1@anastazia-VirtualBox:/home/anastazia$ sudo date
+Ср июл 22 19:23:07 MSK 2020
+test1@anastazia-VirtualBox:/home/anastazia$ sudo -k
+test1@anastazia-VirtualBox:/home/anastazia$ sudo echo '1234'
+[sudo] пароль для test1:
+1234
+test1@anastazia-VirtualBox:/home/anastazia$
